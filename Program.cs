@@ -13,6 +13,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? builder.Configuration.GetConnectionString("Default");
 
+Console.WriteLine(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
+Console.WriteLine("New connection string: " +  connectionString);
 // Configure to use Database service, repository and context
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<UserRepository>();
