@@ -1,3 +1,8 @@
+using DotNetCRUD_8.Data;
+using DotNetCRUD_8.Repositories;
+using DotNetCRUD_8.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,16 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Configure to use Database service, repository and context
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("Default"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default")
+    ))
+);
 
 var app = builder.Build();
 
