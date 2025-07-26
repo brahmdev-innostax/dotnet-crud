@@ -19,9 +19,24 @@ namespace DotNetCRUD_8.Services
             return await _repository.GetAllUsers();
         }
 
+        public async Task<User> GetUser(int id)
+        {
+            return await _repository.GetUser(id);
+        }
+
         public async Task<User> AddUser(CreateUserRequest request)
         {
             return await _repository.AddUser(request);
+        }
+
+        public async Task<User> UpdateUser(int id, CreateUserRequest request)
+        {
+            return await _repository.UpdateUser(id, request);
+        }
+
+        public async Task<bool> DeleteUser(int id)
+        {
+            return await _repository.DeleteUser(id);
         }
     }
 }

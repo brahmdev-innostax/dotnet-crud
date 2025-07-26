@@ -33,12 +33,16 @@ namespace DotNetCRUD_8.Repositories
         {
             _context = context;
         }
-
         private readonly DataContext _context;
 
         public async Task<List<User>> GetAllUsers()
         {
             return await _context.Users.ToListAsync();
+        }
+
+        public async Task<User> GetUser(int id)
+        {
+            return await _context.Users.FindAsync(id);
         }
 
         public async Task<User> AddUser(CreateUserRequest request)
@@ -53,6 +57,31 @@ namespace DotNetCRUD_8.Repositories
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return user;
+        }
+
+        public async Task<User> UpdateUser(int id, CreateUserRequest update)
+        {
+            var user = await GetUser(id);
+            if(user is not null)
+            {
+                user.Email = update.Email;
+                user.Name = update.Name;
+                user.Phone = update.Phone;
+                await _context.SaveChangesAsync();
+            }
+            return user;
+        }
+
+        public async Task<bool> DeleteUser(int id)
+        {
+            var user = await GetUser(id);
+            if (user is not null)
+            {
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -39,10 +39,37 @@ namespace DotNetCRUD_8.Controllers
             return await _service.GetAllUsers();
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUser(int id)
+        {
+            var user = await _service.GetUser(id);
+            if (user is null)
+                return NotFound("User does not exist");
+            return user;
+        }
+
         [HttpPost]
         public async Task<ActionResult<User>> CreateUser(CreateUserRequest requst)
         {
             return await _service.AddUser(requst);
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<User>> UpdateUser(int id, CreateUserRequest request)
+        {
+            var user = await _service.UpdateUser(id, request);
+            if (user is null)
+                return NotFound("User does not exist!");
+            return user;
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<bool>> DeleteUser(int id)
+        {
+            var deleted = await _service.DeleteUser(id);
+            if (!deleted)
+                return BadRequest("Not found!");
+            return Ok("Success!");
         }
     }
 }
