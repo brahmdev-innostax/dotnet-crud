@@ -19,8 +19,9 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseMySql(
         connectionString,
-        ServerVersion.AutoDetect(connectionString
-    ))
+        ServerVersion.AutoDetect(connectionString),
+        b => b.MigrationsAssembly(typeof(DataContext).Assembly.FullName)
+    )
 );
 
 var app = builder.Build();
@@ -34,5 +35,11 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+    db.Database.Migrate();
+}
 
 app.Run();
