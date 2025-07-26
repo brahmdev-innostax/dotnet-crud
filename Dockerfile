@@ -17,8 +17,6 @@ ENV PATH="$PATH:/root/.dotnet/tools"
 COPY . .
 RUN dotnet build "./DotNetCRUD_8.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Run migrations here (before publishing)
-RUN dotnet ef database update
 
 # ---------------- Publish Stage ----------------
 FROM build AS publish
