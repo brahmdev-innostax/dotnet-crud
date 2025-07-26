@@ -5,7 +5,7 @@ EXPOSE 8080
 
 # Set default runtime environment and URL (can override at docker run)
 ENV ASPNETCORE_ENVIRONMENT=Production
-ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_URLS=https://+:8080
 
 # ---------------- Build Stage ----------------
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
